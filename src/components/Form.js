@@ -1,55 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateForm, submitForm } from '../store/store';
 import { Link } from 'react-router-dom';
 
 function Form() {
+  const form = useSelector(state => state.form.form);
+  const dispatch = useDispatch();
 
-  const [state, setState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
-   setState({
-      ...state,
-      [name]: value
-    })
+    dispatch(updateForm({ name, value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.sessionStorage.setItem('form', JSON.stringify(state))
+    dispatch(submitForm());
   };
 
   return (
     <div className='App'>
-      <h1>Session Storage Form POC</h1>
+      <h1>Redux Toolkit Form POC</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
           <input
-            type='text'
-            name='name'
+            type="text"
+            name="name"
+            value={form.name}
             onChange={handleChange}
           />
         </div>
         <div>
           <label>Email:</label>
           <input
-            type='email'
-            name='email'
+            type="email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
           />
         </div>
         <div>
           <label>Message:</label>
           <textarea
-            name='message'
+            name="message"
+            value={form.message}
             onChange={handleChange}
           />
         </div>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <button>        
         <Link to='/form2'>Next</Link>      
