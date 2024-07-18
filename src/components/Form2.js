@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useStore from '../store/useStore';
 import { Link } from 'react-router-dom';
 
 function Form2() {
-  
-  const [state, setState] = useState({
-    name: JSON.parse(window.sessionStorage.getItem('form')).name,
-    email: JSON.parse(window.sessionStorage.getItem('form')).email,
-    message: JSON.parse(window.sessionStorage.getItem('form')).message,
-    phone: '',
-    reciver: ''
-  })
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-   setState({
-      ...state,
-      [name]: value
-    })
-  };
+    const { form, submittedData, updateForm, submitForm } = useStore();
 
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      updateForm(name, value);
+    };
+  
     const handleSubmit = (e) => {
       e.preventDefault();
-      window.sessionStorage.setItem('form', JSON.stringify(state))
+      submitForm();
     };
   
   return (
     <div className='App'>
-      <h1>Session Storage Form POC</h1>
+      <h1>Zustand Form POC</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <h2>Hi {state.name}!</h2>
+            {submittedData && (
+                <div>
+                    <h2>Hi {submittedData.name}!</h2>
+                </div>
+            )}
         </div>
         <div>
             <label>Receiver Information</label>
@@ -39,6 +34,7 @@ function Form2() {
           <input
             type='number'
             name='phone'
+            value={form.phone}
             onChange={handleChange}
           />
         </div>
@@ -47,6 +43,7 @@ function Form2() {
           <input
             type='text'
             name='reciver'
+            value={form.reciver}
             onChange={handleChange}
           />
         </div>
