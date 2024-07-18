@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+form {
+  width: 500px;
+  height: auto;
+  background-color: #28bb6d;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+input, textarea {
+  border-radius: 10px;
+  padding: 3px;
+  width: 200px;
+  margin: 15px 5px;
+}
+
+textarea {
+  vertical-align: top;
+  height: 5em;
+}
+
+label {
+  display: inline-block;
+  width: 90px;
+  margin-top: 15px;
+}
+
+button {
+  margin-left: 0.5em;
+  margin-bottom: 15px;
+}
+
+.panel {
+  text-align: center;
+  margin: 50px auto;
+}
