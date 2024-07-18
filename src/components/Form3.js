@@ -7,7 +7,7 @@ function Form3() {
 
     return(
         <div className='App'>
-            <h1>Session Storage Form POC</h1>
+            <h1>Redux Toolkit Form POC</h1>
             <div className='panel'>
                 { submittedData && (
                     <div>
