@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateForm, submitForm } from '../store/actions';
 import { Link } from 'react-router-dom';
 
 function Form() {
+  const form = useSelector(state => state.form);
+  const dispatch = useDispatch();
 
-  const [state, setState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
-   setState({
-      ...state,
-      [name]: value
-    })
+    dispatch(updateForm(name, value));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.sessionStorage.setItem('form', JSON.stringify(state))
+    dispatch(submitForm(form));
   };
 
   return (
     <div className='App'>
-      <h1>Session Storage Form POC</h1>
+      <h1>Redux Form POC</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
           <input
             type='text'
             name='name'
+            value={form.name}
             onChange={handleChange}
           />
         </div>
@@ -39,6 +35,7 @@ function Form() {
           <input
             type='email'
             name='email'
+            value={form.email}
             onChange={handleChange}
           />
         </div>
@@ -46,6 +43,7 @@ function Form() {
           <label>Message:</label>
           <textarea
             name='message'
+            value={form.message}
             onChange={handleChange}
           />
         </div>

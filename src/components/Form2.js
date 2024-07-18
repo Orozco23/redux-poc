@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateForm, submitForm } from '../store/actions';
 import { Link } from 'react-router-dom';
 
 function Form2() {
-  
-  const [state, setState] = useState({
-    name: JSON.parse(window.sessionStorage.getItem('form')).name,
-    email: JSON.parse(window.sessionStorage.getItem('form')).email,
-    message: JSON.parse(window.sessionStorage.getItem('form')).message,
-    phone: '',
-    reciver: ''
-  })
-  
+  const form = useSelector(state => state.form);
+  const submittedData = useSelector(state => state.submittedData);
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-   setState({
-      ...state,
-      [name]: value
-    })
+    dispatch(updateForm(name, value));
   };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      window.sessionStorage.setItem('form', JSON.stringify(state))
-    };
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(submitForm(form));
+  };
+
   return (
     <div className='App'>
-      <h1>Session Storage Form POC</h1>
+      <h1>Redux Form POC</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <h2>Hi {state.name}!</h2>
+            {submittedData && (
+                <div>
+                    <h2>Hi {submittedData.name}!</h2>
+                </div>
+            )}
         </div>
         <div>
             <label>Receiver Information</label>
@@ -39,6 +37,7 @@ function Form2() {
           <input
             type='number'
             name='phone'
+            value={form.phone}
             onChange={handleChange}
           />
         </div>
@@ -47,6 +46,7 @@ function Form2() {
           <input
             type='text'
             name='reciver'
+            value={form.reciver}
             onChange={handleChange}
           />
         </div>
